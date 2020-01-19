@@ -19,7 +19,12 @@ Example : [here](./solid-principles/SingleResponsibilityPrinciple)
 
 ## OCP (Open Close Principle)
 
-Software components should be open for extension, but closed for modification.
+Software entities ... should be open for extension, but closed for modification.
   
 Example : [here](./solid-principles/OpenClosePrinciple)
   
+## LSP (Liskov Substitution Principle)
+
+Derived types must be completely substitutable for their base/super types.
+
+Example : [here](./solid-principles/LiskovSubstitutionPrinciple)
