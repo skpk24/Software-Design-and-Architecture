@@ -58,3 +58,5 @@ Many developers have trouble with naming the methods or variables with an effici
 * Use camel case of variables and method names
 
 * Avoid using ‘_’
+
+* Avoid name starting with number
