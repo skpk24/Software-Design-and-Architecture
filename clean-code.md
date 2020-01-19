@@ -45,8 +45,3 @@ List<Student> listOfStudents; | List<Student> students;
 Map<Student> mapOfStudents; | Map<Student> students;
 String sStudent; | String student;
 int iAmount; | int amount;
-
-First Header | Second Header
------------- | -------------
-Content from cell 1 | Content from cell 2
-Content in the first column | Content in the second column
