@@ -9,11 +9,11 @@ Bad code smells can be an indicator of factors that contribute to technical debt
 ## Comments
 Are comments necessary?
 
-Why?
+* Why?
 
-What?
+* What?
 
-Comments are for people not for machines
+* Comments are for people not for machines
 
 Think about refactoring the code so that comments are not needed
 
@@ -60,3 +60,18 @@ Many developers have trouble with naming the methods or variables with an effici
 * Avoid using ‘_’
 
 * Avoid name starting with number
+
+## Dead Code
+
+Unused code? Or commented code? Delete is before you push to repository.
+
+## Temporary Fields
+
+Avoid using too many temporary fields in the code. If your class has too many temporary fields - time to refactor the code.
+
+## Refused Bequest
+
+A derived class does not honor the contract of the base class.
+
+Example - Liskov’s Substitution Principle
+
