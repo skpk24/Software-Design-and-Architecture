@@ -40,15 +40,10 @@ Avoid to many parameters in the method signature.
 Avoid embedding types to the variable names.
 
 Bad Examples  | Good Examples
-
 ------------- | -------------
-
 List<Student> listOfStudents; | List<Student> students;
-  
 Map<Student> mapOfStudents; | Map<Student> students;
-  
 String sStudent; | String student;
-
 int iAmount; | int amount;
 
 First Header | Second Header
