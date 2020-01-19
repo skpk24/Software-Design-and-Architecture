@@ -45,3 +45,16 @@ List<Student> listOfStudents; | List<Student> students;
 Map<Student> mapOfStudents; | Map<Student> students;
 String sStudent; | String student;
 int iAmount; | int amount;
+  
+  
+## Inconsistent Names
+
+Many developers have trouble with naming the methods or variables with an efficient name.
+
+### Examples
+
+* Use lower case for packages
+
+* Use camel case of variables and method names
+
+* Avoid using ‘_’
