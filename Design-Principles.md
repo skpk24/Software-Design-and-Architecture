@@ -33,7 +33,7 @@ Example : [here](./solid-principles/LiskovSubstitutionPrinciple)
 
 Many client-specific interfaces are better than one general-purpose interface. OR Clients should not be forced to implement unnecessary methods which they will not use.
 
-Example : [here](./solid-principles/LiskovSubstitutionPrinciple)
+Example : [here](./solid-principles/InterfaceSegregrationPrinciple)
 
 ## DIP (Dependency Inversion Principle)
 
