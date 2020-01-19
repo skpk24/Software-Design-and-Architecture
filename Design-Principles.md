@@ -15,7 +15,7 @@
 
 One class should have one and only one responsibility.
 
-Example : [here](./tree/master/solid-principles/SingleResponsibilityPrinciple)
+Example : [here](./solid-principles/SingleResponsibilityPrinciple)
 
 ## OCP (Open Close Principle)
 
