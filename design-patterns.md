@@ -10,7 +10,7 @@ Creational design patterns provide solution to instantiate a object in the best 
 
       A class of which only a single instance can exists. 
 
-      Example : [here] (./Design-Patterns/Singleton)
+      Example : [here](./Design-Patterns/Singleton)
       
 ### Prototype
       
