@@ -6,16 +6,16 @@ Solution to the common problems.
 
 Creational design patterns provide solution to instantiate a object in the best possible way for specific situations.
 
-* ### Signleton 
+### Signleton 
 
-      A class of which only a single instance can exists.
+      A class of which only a single instance can exists. 
 
       Example : [here] (./Design-Patterns/Singleton)
       
-* ### Prototype
+### Prototype
       
       A fully initialized instance to be copied or cloned.
       
-* ### Factory 
+### Factory 
 
       
