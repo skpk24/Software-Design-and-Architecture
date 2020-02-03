@@ -9,12 +9,14 @@ Creational design patterns provide solution to instantiate a object in the best 
 ### Signleton 
 
       A class of which only a single instance can exists. 
+      
+      [More reading] (https://javarevisited.blogspot.com/2011/03/10-interview-questions-on-singleton.html)
 
       Example : [here](./Design-Patterns/Singleton)
       
 ### Prototype
       
-      A fully initialized instance to be copied or cloned.
+      A fully initialized instance to be copied or cloned. (effectively)
       
 ### Factory 
 
