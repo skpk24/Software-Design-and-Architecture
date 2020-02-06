@@ -18,72 +18,99 @@ Great news, right? But how about the code? At present, most of your code is coup
 As a result, you will end up with pretty nasty code, riddled with conditionals that switch the app’s behavior depending on the class of transportation objects.
 
 
-1. **Ensure that a class has just a single instance.** Why would anyone want to control how many instances a class has? The most common reason for this is to control access to some shared resource—for example, a database or a file.
-
-Here’s how it works: imagine that you created an object, but after a while decided to create a new one. Instead of receiving a fresh object, you’ll get the one you already created.
-
-**Note** that this behavior is impossible to implement with a regular constructor since a constructor call must always return a new object by design.
-
-2. **Provide a global access point to that instance.** Remember those global variables that you (all right, me) used to store some essential objects? While they’re very handy, they’re also very unsafe since any code can potentially overwrite the contents of those variables and crash the app.
-
-Just like a global variable, the Singleton pattern lets you access some object from anywhere in the program. However, it also protects that instance from being overwritten by other code.
-
-There’s another side to this problem: you don’t want the code that solves problem #1 to be scattered all over your program. It’s much better to have it within one class, especially if the rest of your code already depends on it.
 
 &#128578; **Solution**
 
-All implementations of the Singleton have these two steps in common:
+The Factory Method pattern suggests that you replace direct object construction calls (using the `new` operator) with calls to a special factory method. Don’t worry: the objects are still created via the `new` operator, but it’s being called from within the factory method. Objects returned by a factory method are often referred to as “products.”
 
-* Make the default constructor private, to prevent other objects from using the new operator with the Singleton class.
+At first glance, this change may look pointless: we just moved the constructor call from one part of the program to another. However, consider this: now you can override the factory method in a subclass and change the class of products being created by the method.
 
-* Create a static creation method that acts as a constructor. Under the hood, this method calls the private constructor to create an object and saves it in a static field. All following calls to this method return the cached object.
+There’s a slight limitation though: subclasses may return different types of products only if these products have a common base class or interface. Also, the factory method in the base class should have its return type declared as this interface.
 
-If your code has access to the Singleton class, then it’s able to call the Singleton’s static method. So whenever that method is called, the same object is always returned.
+For example, both `Truck` and `Ship` classes should implement the `Transport` interface, which declares a method called `deliver`. Each class implements this method differently: trucks deliver cargo by land, ships deliver cargo by sea. The factory method in the `RoadLogistics` class returns truck objects, whereas the factory method in the `SeaLogistics` class returns ships.
+
+The code that uses the factory method (often called the client code) doesn’t see a difference between the actual products returned by various subclasses. The client treats all the products as abstract `Transport`. The client knows that all transport objects are supposed to have the `deliver` method, but exactly how it works isn’t important to the client.
 
 &#128736; **Applicability**
 
-&#128519; **Use the Singleton pattern when a class in your program should have just a single instance available to all clients; for example, a single database object shared by different parts of the program.**
+&#128519; **Use the Factory Method when you don’t know beforehand the exact types and dependencies of the objects your code should work with.**
 
-&#9758;The Singleton pattern disables all other means of creating objects of a class except for the special creation method. This method either creates a new object or returns an existing one if it has already been created.
+&#9758;The Factory Method separates product construction code from the code that actually uses the product. Therefore it’s easier to extend the product construction code independently from the rest of the code.
 
-&#128519; **Use the Singleton pattern when you need stricter control over global variables.**
+For example, to add a new product type to the app, you’ll only need to create a new creator subclass and override the factory method in it.
 
-&#9758; Unlike global variables, the Singleton pattern guarantees that there’s just one instance of a class. Nothing, except for the Singleton class itself, can replace the cached instance.
+&#128519; **Use the Factory Method when you want to provide users of your library or framework with a way to extend its internal components.**
 
-Note that you can always adjust this limitation and allow creating any number of Singleton instances. The only piece of code that needs changing is the body of the `getInstance` method.
+&#9758; Inheritance is probably the easiest way to extend the default behavior of a library or framework. But how would the framework recognize that your subclass should be used instead of a standard component?
 
+The solution is to reduce the code that constructs components across the framework into a single factory method and let anyone override this method in addition to extending the component itself.
+
+Let’s see how that would work. Imagine that you write an app using an open source UI framework. Your app should have round buttons, but the framework only provides square ones. You extend the standard `Button` class with a glorious `RoundButton` subclass. But now you need to tell the main `UIFramework` class to use the new button subclass instead of a default one.
+
+To achieve this, you create a subclass `UIWithRoundButtons` from a base framework class and override its `createButton` method. While this method returns `Button` objects in the base class, you make your subclass return `RoundButton` objects. Now use the `UIWithRoundButtons` class instead of `UIFramework`. And that’s about it!
+
+
+&#128519; **Use the Factory Method when you want to save system resources by reusing existing objects instead of rebuilding them each time.**
+
+&#9758; You often experience this need when dealing with large, resource-intensive objects such as database connections, file systems, and network resources.
+
+Let’s think about what has to be done to reuse an existing object:
+
+1. First, you need to create some storage to keep track of all of the created objects.
+
+2. When someone requests an object, the program should look for a free object inside that pool.
+
+3. … and then return it to the client code.
+
+4. If there are no free objects, the program should create a new one (and add it to the pool).
+
+That’s a lot of code! And it must all be put into a single place so that you don’t pollute the program with duplicate code.
+
+Probably the most obvious and convenient place where this code could be placed is the constructor of the class whose objects we’re trying to reuse. However, a constructor must always return new objects by definition. It can’t return existing instances.
+
+Therefore, you need to have a regular method capable of creating new objects as well as reusing existing ones. That sounds very much like a factory method.
 
 &#128221; **How To Implement**
 
-1. Add a private static field to the class for storing the singleton instance.
+1. Make all products follow the same interface. This interface should declare methods that make sense in every product.
 
-2. Declare a public static creation method for getting the singleton instance.
+2. Add an empty factory method inside the creator class. The return type of the method should match the common product interface.
 
-3. Implement “lazy initialization” inside the static method. It should create a new object on its first call and put it into the static field. The method should always return that instance on all subsequent calls.
+3. In the creator’s code find all references to product constructors. One by one, replace them with calls to the factory method, while extracting the product creation code into the factory method.
 
-4. Make the constructor of the class private. The static method of the class will still be able to call the constructor, but not the other objects.
+You might need to add a temporary parameter to the factory method to control the type of returned product.
 
-5. Go over the client code and replace all direct calls to the singleton’s constructor with calls to its static creation method.
+At this point, the code of the factory method may look pretty ugly. It may have a large `switch` operator that picks which product class to instantiate. But don’t worry, we’ll fix it soon enough.
+
+4. Now, create a set of creator subclasses for each type of product listed in the factory method. Override the factory method in the subclasses and extract the appropriate bits of construction code from the base method.
+
+5. If there are too many product types and it doesn’t make sense to create subclasses for all of them, you can reuse the control parameter from the base class in subclasses.
+
+For instance, imagine that you have the following hierarchy of classes: the base `Mail` class with a couple of subclasses: `AirMail` and `GroundMail`; the `Transport` classes are `Plane`, `Truck` and `Train`. While the `AirMail` class only uses `Plane` objects, `GroundMail` may work with both `Truck` and `Train` objects. You can create a new subclass (say `TrainMail`) to handle both cases, but there’s another option. The client code can pass an argument to the factory method of the `GroundMail` class to control which product it wants to receive.
+
+
+6. If, after all of the extractions, the base factory method has become empty, you can make it abstract. If there’s something left, you can make it a default behavior of the method.
 
 &#9878; **Pros and Cons**
 
 &#10004; Pros | &#10008; Cons
 --------------|--------------
-&#10004; You can be sure that a class has only a single instance. | &#10008; You can be sure that a class has only a single instance.
-&#10004; You gain a global access point to that instance. | &#10008; The Singleton pattern can mask bad design, for instance, when the components of the program know too much about each other.
-&#10004; The singleton object is initialized only when it’s requested for the first time. | &#10008; The pattern requires special treatment in a multithreaded environment so that multiple threads won’t create a singleton object several times.
- . | &#10008; The pattern requires special treatment in a multithreaded environment so that multiple threads won’t create a singleton object several times.
- . | &#10008; It may be difficult to unit test the client code of the Singleton because many test frameworks rely on inheritance when producing mock objects. Since the constructor of the singleton class is private and overriding static methods is impossible in most languages, you will need to think of a creative way to mock the singleton. Or just don’t write the tests. Or don’t use the Singleton pattern.
+&#10004; You avoid tight coupling between the creator and the concrete products. | &#10008; The code may become more complicated since you need to introduce a lot of new subclasses to implement the pattern. The best case scenario is when you’re introducing the pattern into an existing hierarchy of creator classes.
+&#10004; Single Responsibility Principle. You can move the product creation code into one place in the program, making the code easier to support. | .
+&#10004; Open/Closed Principle. You can introduce new types of products into the program without breaking existing client code. | .
  
  
  **&#8644; Relationship with other Patterns**
  
-- A [Facade](./Design-Patterns/Facade/facade.md) class can often be transformed into a Singleton since a single facade object is sufficient in most cases.
+- Many designs start by using Factory Method (less complicated and more customizable via subclasses) and evolve toward [Abstract Factories](./Design-Patterns/Abstract-Factories/abstract_factories.md), [Builders](./Design-Patterns/Builders/builders.md) or [Prototypes](./Design-Patterns/Prototypes/prototypes.md) (more flexible, but more complicated).
 
-- [Flyweight](./Design-Patterns/Flyweight/flyweight.md) would resemble Singleton if you somehow managed to reduce all shared states of the objects to just one flyweight object. But there are two fundamental differences between these patterns:
 
-     * There should be only one Singleton instance, whereas a Flyweight class can have multiple instances with different intrinsic states.
+- [Abstract Factories](./Design-Patterns/Abstract-Factories/abstract_factories.md) classes are often based on a set of Factory Methods, but you can also use [Prototype](./Design-Patterns/Prototypes/prototypes.md) to compose the methods on these classes.
 
-     * The Singleton object can be mutable. Flyweight objects are immutable.
- 
-- [Abstract Factories](./Design-Patterns/Abstract-Factories/abstract_factories.md), [Builders](./Design-Patterns/Builders/builders.md) and [Prototypes](./Design-Patterns/Prototypes/prototypes.md) can all be implemented as Singletons.
+
+- You can use Factory Method along with [Iterator](./Design-Patterns/Iterator/iterator.md) to let collection subclasses return different types of iterators that are compatible with the collections.
+      
+      
+- [Prototype](./Design-Patterns/Prototypes/prototypes.md) isn’t based on inheritance, so it doesn’t have its drawbacks. On the other hand, Prototype requires a complicated initialization of the cloned object. Factory Method is based on inheritance but doesn’t require an initialization step.
+
+- Factory Method is a specialization of [Template Method](./Design-Patterns/Template/template.md). At the same time, a Factory Method may serve as a step in a large Template Method.
