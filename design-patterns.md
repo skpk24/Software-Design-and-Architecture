@@ -6,9 +6,10 @@ Solution to the common problems.
 
 Creational design patterns provide solution to instantiate a object in the best possible way for specific situations.
 
-### Signleton 
+### [Signleton](./Design-Patterns/Singleton/singleton.md) 
 
-      A class of which only a single instance can exists. 
+   Singleton is a creational design pattern that lets you ensure that a class has only one instance, while providing a global access point to this instance.
+
       
 [More reading] (https://javarevisited.blogspot.com/2011/03/10-interview-questions-on-singleton.html)
 
