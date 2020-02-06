@@ -5,6 +5,7 @@
 
 *Factory Method* is a creational design pattern that provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created.     
 
+
 &#128577; **Problem statement**
 
 Imagine that you’re creating a logistics management application. The first version of your app can only handle transportation by trucks, so the bulk of your code lives inside the `Truck` class.
@@ -16,6 +17,7 @@ After a while, your app becomes pretty popular. Each day you receive dozens of r
 Great news, right? But how about the code? At present, most of your code is coupled to the `Truck` class. Adding `Ships` into the app would require making changes to the entire codebase. Moreover, if later you decide to add another type of transportation to the app, you will probably need to make all of these changes again.
 
 As a result, you will end up with pretty nasty code, riddled with conditionals that switch the app’s behavior depending on the class of transportation objects.
+
 
 
 
@@ -31,6 +33,8 @@ For example, both `Truck` and `Ship` classes should implement the `Transport` in
 
 The code that uses the factory method (often called the client code) doesn’t see a difference between the actual products returned by various subclasses. The client treats all the products as abstract `Transport`. The client knows that all transport objects are supposed to have the `deliver` method, but exactly how it works isn’t important to the client.
 
+
+
 &#128736; **Applicability**
 
 &#128519; **Use the Factory Method when you don’t know beforehand the exact types and dependencies of the objects your code should work with.**
@@ -38,6 +42,8 @@ The code that uses the factory method (often called the client code) doesn’t s
 &#9758;The Factory Method separates product construction code from the code that actually uses the product. Therefore it’s easier to extend the product construction code independently from the rest of the code.
 
 For example, to add a new product type to the app, you’ll only need to create a new creator subclass and override the factory method in it.
+
+
 
 &#128519; **Use the Factory Method when you want to provide users of your library or framework with a way to extend its internal components.**
 
@@ -50,7 +56,9 @@ Let’s see how that would work. Imagine that you write an app using an open sou
 To achieve this, you create a subclass `UIWithRoundButtons` from a base framework class and override its `createButton` method. While this method returns `Button` objects in the base class, you make your subclass return `RoundButton` objects. Now use the `UIWithRoundButtons` class instead of `UIFramework`. And that’s about it!
 
 
+
 &#128519; **Use the Factory Method when you want to save system resources by reusing existing objects instead of rebuilding them each time.**
+
 
 &#9758; You often experience this need when dealing with large, resource-intensive objects such as database connections, file systems, and network resources.
 
@@ -69,6 +77,8 @@ That’s a lot of code! And it must all be put into a single place so that you d
 Probably the most obvious and convenient place where this code could be placed is the constructor of the class whose objects we’re trying to reuse. However, a constructor must always return new objects by definition. It can’t return existing instances.
 
 Therefore, you need to have a regular method capable of creating new objects as well as reusing existing ones. That sounds very much like a factory method.
+
+
 
 &#128221; **How To Implement**
 
@@ -91,13 +101,19 @@ For instance, imagine that you have the following hierarchy of classes: the base
 
 6. If, after all of the extractions, the base factory method has become empty, you can make it abstract. If there’s something left, you can make it a default behavior of the method.
 
+
+
 &#9878; **Pros and Cons**
+
+
 
 &#10004; Pros | &#10008; Cons
 --------------|--------------
 &#10004; You avoid tight coupling between the creator and the concrete products. | &#10008; The code may become more complicated since you need to introduce a lot of new subclasses to implement the pattern. The best case scenario is when you’re introducing the pattern into an existing hierarchy of creator classes.
 &#10004; Single Responsibility Principle. You can move the product creation code into one place in the program, making the code easier to support. | .
 &#10004; Open/Closed Principle. You can introduce new types of products into the program without breaking existing client code. | .
+ 
+ 
  
  
  **&#8644; Relationship with other Patterns**
