@@ -77,4 +77,4 @@ Note that you can always adjust this limitation and allow creating any number of
 
      * The Singleton object can be mutable. Flyweight objects are immutable.
  
-- [Abstract Factories](./Design-Patterns/Abstract Factories/abstract_factories.md), [Builders](./Design-Patterns/Builders/builders.md) and [Prototypes](./Design-Patterns/Prototypes/prototypes.md) can all be implemented as Singletons.
+- [Abstract Factories](./Design-Patterns/Abstract-Factories/abstract_factories.md), [Builders](./Design-Patterns/Builders/builders.md) and [Prototypes](./Design-Patterns/Prototypes/prototypes.md) can all be implemented as Singletons.
