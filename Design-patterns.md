@@ -26,3 +26,15 @@ Example : [here](./Design-Patterns/Singleton)
 ### Factory 
 
       
+      
+## Structural Design Patterns 
+
+### [Decorator Design Pattern](./Design-Patterns/Decoratory/decorator.md)
+   
+    Add responsibilities to objects dynamically. 
+    
+    *OR 
+    
+    Decorator is a structural design pattern that lets you attach new behaviors to objects by placing these objects inside special wrapper objects that contain the behaviors. 
+    
+    Example : [here](./Design-Patterns/Decorator)
