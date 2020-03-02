@@ -23,8 +23,9 @@ Example : [here](./Design-Patterns/Singleton)
       
       A fully initialized instance to be copied or cloned. (effectively)
       
-### Factory 
+### Builder  
 
+      Separates object construction from its representation
       
       
 ## Structural Design Patterns 
