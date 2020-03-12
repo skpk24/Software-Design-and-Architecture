@@ -37,7 +37,7 @@ Example : [here](./solid-principles/InterfaceSegregrationPrinciple)
 
 ## DIP (Dependency Inversion Principle)
 
-Depend on abstractions, not on concretions OR High level module should not depend on low leve modules, both should depend on common abstraction layer.
+Depend on abstractions, not on concretions OR High level module should not depend on low level modules, both should depend on common abstraction layer.
 
 Example : [here](./solid-principles/DependencyInversionPrinciple) 
 
