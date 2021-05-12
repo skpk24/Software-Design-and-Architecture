@@ -1,3 +1,14 @@
+# SOLID - 
+
+# KISS - Keep It Simple and Stupid
+
+# DRY - Don't Repeat Yourself
+
+# YAGNI - You Are not Gonna Need It now.
+
+# Cohesion vs Coupling - Keep similar things together vs Create less dependency. 
+
+
 # SOLID Design principles :
 
 > Single Responsibility Principle (SRP)
